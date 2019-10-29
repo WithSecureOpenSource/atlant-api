@@ -1,0 +1,17 @@
+{
+  "name": "scanner",
+  "version": "1.0.0",
+  "description": "F-Secure Atlant Scanning Example",
+  "main": "scanner.js",
+  "bin": {
+    "atlant-scanner": "scanner.js"
+  },
+  "keywords": [
+    "security"
+  ],
+  "dependencies": {
+    "form-data": "^3.0.0",
+    "node-fetch": "^2.6.0",
+    "sleep-promise": "^8.0.1"
+  }
+}

@@ -1,0 +1,6 @@
+*.pyc
+*.egg-info
+__pycache__
+/go/scanner/atlant-scanner
+/javascript/scanner/node_modules
+/env
