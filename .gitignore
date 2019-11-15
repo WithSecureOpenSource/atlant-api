@@ -4,3 +4,5 @@ __pycache__
 /go/scanner/atlant-scanner
 /javascript/scanner/node_modules
 /env
+.gradle
+/java/scanner/build

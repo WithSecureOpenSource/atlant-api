@@ -30,10 +30,27 @@ cd python
 
 Now the commands should be available in the current shell's path.
 
+## Java Examples
+
+In `java/scanner`, there is an example command line based file scanning client
+written in Java 11. The client along with its dependencies can be built into a
+single JAR-file using [Gradle](https://gradle.org):
+
+``` shell
+cd java/scanner
+./gradlew shadowJar
+```
+
+The client can be invoked as:
+
+``` shell
+java -jar build/libs/scanner-all.jar AUTH-URL SCAN-URL CLIENT-ID CLIENT-SECRET FILE
+```
+
 ## Go Examples
 
 In `go/scanner`, there is an example Go command line client capable of scanning
-files using F-Secure Atlant's scanning API. To compile the client, simply run:
+files using F-Secure Atlant's scanning API. The client can be invoked as:
 
 ``` shell
 cd go/scanner
@@ -50,4 +67,9 @@ atlant-scanner AUTH-URL SCAN-URL CLIENT-ID CLIENT-SECRET FILE
 ## JavaScript Examples
 
 In `javascript/scanner`, there is an example command line based file scanning
-utility build on top of Node.js.
+client build on top of Node.js. The client can be invoked as:
+
+``` shell
+atlant-scanner AUTH-URL SCAN-URL CLIENT-ID CLIENT-SECRET FILE
+```
+
