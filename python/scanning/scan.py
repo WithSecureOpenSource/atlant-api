@@ -53,13 +53,17 @@ def make_response(response):
     )
 
 
-def scan_file(address, token, path):
-    metadata = {}
-    with open(path, "rb") as f:
-        parts = (
-            ("metadata", (None, json.dumps(metadata))),
-            ("data", (None, f.read())),
-        )
+def scan_file(address, token, file, metadata=None):
+    metadata = {} if metadata is None else metadata
+    if hasattr(file, "read"):
+        data = file.read()
+    else:
+        with open(file, "rb") as handle:
+            data = handle.read()
+    parts = (
+        ("metadata", (None, json.dumps(metadata))),
+        ("data", (None, data)),
+    )
     response = requests.post(
         "https://{}/api/scan/v1".format(address),
         files=parts,

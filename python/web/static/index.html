@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Is it safe? 🤔 — Atlant API Example</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" integrity="sha384-8t+aLluUVnn5SPPG/NbeZCH6TWIvaXIm/gDbutRvtEeElzxxWaZN+G/ZIEdI/f+y" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/static/display.css" />
+    <script src="/static/app.js"></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-dark bg-dark">
+      <div class="container">
+        <h1 class="navbar-brand">Is it safe? 🤔 — Atlant API Example</h1>
+      </div>
+    </nav>
+    <main class="container my-5">
+      <div class="jumbotron"
+           id="dropzone"
+           v-bind:class="{ 'drag-active': dragActive }"
+           @drop.prevent="drop"
+           @dragover.prevent="dragOver"
+           @dragleave.prevent="dragLeave" >
+        <template v-if="analyzing">
+          <h1 class="display-2" id="headline">Analyzing… ⚙</h1>
+          <p class="lead">Scanning {{filename}} for malicious content</p>
+        </template>
+        <template v-else-if="!results.hasOwnProperty('safe')">
+          <h1 class="display-2" id="headline">Is it safe? 🤔</h1>
+          <p class="lead">Drop file to analyze</p>
+        </template>
+        <template v-else>
+          <template v-if="results['safe']">
+            <h1 class="display-2" id="headline">Yes ✅</h1>
+            <p class="lead">No threats were detected in {{filename}}</p>
+          </template>
+          <template v-else>
+            <h1 class="display-2" id="headline">No 🔥</h1>
+            <template v-if="results['detections']">
+              <p class="lead">The following threats were detected in {{filename}}:</p>
+              <ul class="detections">
+                <li v-for="detection in results['detections']">
+                  <span class="text-monospace">{{ detection['name'] }}</span> (<b>{{ detection['category'] }}</b>)
+                </li>
+              </ul>
+            </template>
+            <template v-else>
+              <p class="lead">The file appears to contain malicious content</p>
+            </template>
+          </template>
+        </template>
+      </div>
+
+      <h1>Introduction</h1>
+      <p>
+        F-Secure Atlant is a platform for building applications that are able to scan and
+        detect malicious files.
+      </p>
+      <p>
+        Atlant provides a REST API for scanning files and managing the product
+        configuration. Applications and services can use the API resources to analyze
+        content using always up-to-date heuristics and statistical techniques.
+      </p>
+      <p>
+        This example web application demonstrates how Atlant API can be used to
+        build interactive web applications that are capable of detecting
+        malicious user submitted files.
+      </p>
+
+    </main>
+  </body>
+</html>

@@ -87,15 +87,17 @@ async function scanAndPollUntilDone(address, token, path) {
     case "pending":
         const taskURL = response["task_url"];
         await sleep(response["retry_after"]);
+        pending:
         while (true) {
             response = await pollTask(address, token, taskURL);
             switch (response["status"]) {
             case "complete":
                 return response;
             case "pending":
-                await sleep(response["retry_after"])
+                await sleep(response["retry_after"]);
+                continue;
             default:
-                break
+                break pending;
             }
         }
     }

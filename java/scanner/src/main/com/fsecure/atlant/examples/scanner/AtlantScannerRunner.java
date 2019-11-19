@@ -10,7 +10,7 @@ class AtlantScannerRunner
         try {
             commandLine = new CommandLine(args);
         } catch (InvalidInvocationException e) {
-            System.err.printf("Invalid usage: %s", e.getMessage());
+            System.err.printf("Invalid usage: %s\n", e.getMessage());
             System.err.println(CommandLine.USAGE);
             System.exit(1);
         }

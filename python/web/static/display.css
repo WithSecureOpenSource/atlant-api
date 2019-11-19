@@ -1,0 +1,8 @@
+#dropzone {
+    text-align: center;
+}
+
+#dropzone.drag-active {
+    border: medium dashed red;
+}
+
