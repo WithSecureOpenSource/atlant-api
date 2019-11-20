@@ -21,6 +21,7 @@ included example utilities are:
 - `atlant-set`: Tool for changing setting values using configuration API
 - `atlant-scan`: Tool for scanning files using scanning API
 - `atlant-web`: Example web app for scanning files
+- `atlant-icap`: Tool for using the ICAP interface
 
 ### Running the Python Examples
 

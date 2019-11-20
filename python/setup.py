@@ -14,6 +14,7 @@ setup(
             "atlant-set=configuration.set:main",
             "atlant-scan=scanning.scan:main",
             "atlant-web=web.web:main",
+            "atlant-icap=icap.icap:main",
         ]
     },
     install_requires=["requests2==2.16.0", "click==7.0", "flask==1.1.1"],
