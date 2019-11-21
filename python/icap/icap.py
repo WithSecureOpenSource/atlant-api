@@ -3,6 +3,7 @@
 import pprint
 import socket
 import sys
+import os
 
 DEFAULT_PORT=1344
 EICAR = "X5O!P%@AP[4\\PZX54(P^)7CC)7}" \
@@ -49,9 +50,9 @@ def usage(f):
     f.write("""
 A simple test program to exercise F-Secure's ICAP service.
 
-Usage: icaptest.py ( --options | --scan file | --eicar ) serverhost [ port ]
+Usage: {} ( --options | --scan file | --eicar ) serverhost [ port ]
 
-""")
+""".format(os.path.basename(sys.argv[0])))
 
 def do_options(host, port=DEFAULT_PORT):
     c = ICAPClient(host, port)
