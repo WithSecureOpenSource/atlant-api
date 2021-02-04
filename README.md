@@ -22,6 +22,7 @@ included example utilities are:
 - `atlant-scan`: Tool for scanning files using scanning API
 - `atlant-web`: Example web app for scanning files
 - `atlant-icap`: Tool for using the ICAP interface
+- `atlant-dirscan`: Tool for scanning directories for harmful content
 
 ### Running the Python Examples
 
@@ -39,6 +40,40 @@ cd python
 ```
 
 Now the example utilities should be available in current shell's path.
+
+#### Scanning Directories with atlant-dirscan
+
+`atlant-dirscan` Utility can be used for scanning directories for harmful
+content. Scan results are written to a CSV file.
+
+```
+usage: atlant-dirscan [-h] config dir output
+
+Scan directory for harmful files.
+
+positional arguments:
+  config      Configuration file path.
+  dir         Directory to scan.
+  output      Output file path.
+
+optional arguments:
+  -h, --help  show this help message and exit
+```
+
+`atlant-dirscan` requires that a path to a configuration file is supplied on the
+command line. The configuration file should have the following format:
+
+```
+{
+    "authorization_address": "authorization.example.com:8081",
+    "scanner_address": "scanner.example.com:8082",
+    "client_id": "...",
+    "client_secret": "...",
+    "security_cloud": false,
+    "allow_upstream_application_files": true,
+    "allow_upstream_data_files": false
+}
+```
 
 ## Java Examples
 

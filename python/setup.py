@@ -9,14 +9,15 @@ setup(
     packages=find_packages(),
     entry_points={
         "console_scripts": [
-            "atlant-token=authentication.token:main",
-            "atlant-get=configuration.get:main",
-            "atlant-set=configuration.set:main",
-            "atlant-scan=scanning.scan:main",
-            "atlant-web=web.web:main",
-            "atlant-icap=icap.icap:main",
+            "atlant-token=atlant.tools.token:main",
+            "atlant-get=atlant.tools.get:main",
+            "atlant-set=atlant.tools.set:main",
+            "atlant-scan=atlant.tools.scan:main",
+            "atlant-web=atlant.tools.web:main",
+            "atlant-icap=atlant.tools.icap:main",
+            "atlant-dirscan=atlant.tools.dirscan:main",
         ]
     },
-    install_requires=["requests2==2.16.0", "click==7.0", "flask==1.1.1"],
+    install_requires=["requests==2.25.1", "flask==1.1.2"],
     keywords=["Topic :: Security"],
 )
