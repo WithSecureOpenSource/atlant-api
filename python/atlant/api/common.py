@@ -1,8 +1,3 @@
-"""
-Common helper types.
-"""
-
-
 class APIException(Exception):
     """API Error"""
 
