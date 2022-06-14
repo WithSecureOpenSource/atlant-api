@@ -18,6 +18,6 @@ setup(
             "atlant-dirscan=atlant.tools.dirscan:main",
         ]
     },
-    install_requires=["requests==2.25.1", "flask==1.1.2"],
+    install_requires=["requests==2.28.0", "flask==2.1.2"],
     keywords=["Topic :: Security"],
 )
