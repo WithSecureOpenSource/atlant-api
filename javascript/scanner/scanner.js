@@ -2,12 +2,12 @@
 
 "use strict";
 
-const fs = require("fs");
-const process = require("process");
-const fetch = require("node-fetch");
-const FormData = require("form-data");
-const sleep = require("sleep-promise");
-const { URLSearchParams } = require("url");
+import fs from "fs";
+import process from "process";
+import fetch from "node-fetch";
+import FormData from "form-data";
+import sleep from "sleep-promise";
+import { URLSearchParams } from "url";
 
 class APIError extends Error {
     name = "APIError";
