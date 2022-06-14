@@ -110,7 +110,6 @@ class ScanClient(AuthenticatedClientBase):
         )
         if response.status_code in (200, 202):
             return _make_scan_response(response)
-        print(response)
         raise APIException(
             "Scan error",
             "Scan failed (status {})".format(response.status_code),
