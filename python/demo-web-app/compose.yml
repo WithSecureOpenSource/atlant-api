@@ -1,0 +1,21 @@
+version: "3.9"
+services:
+  atlant:
+    build:
+      context: ./demo-web-app-atlant
+  backend:
+    build:
+      context: ./demo-web-app-backend
+      additional_contexts:
+        asyncio-icap-client: ../asyncio-icap-client
+    depends_on:
+      - atlant
+    environment:
+      - ICAP_HOST=atlant
+  frontend:
+    build:
+      context: ./demo-web-app-frontend
+    depends_on:
+      - backend
+    ports:
+      - "80:80"

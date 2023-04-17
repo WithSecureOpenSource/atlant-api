@@ -1,7 +1,8 @@
 {
   "name": "scanner",
   "version": "1.0.0",
-  "description": "F-Secure Atlant Scanning Example",
+  "description": "WithSecure Atlant Scanning Example",
+  "license": "Apache-2.0",
   "type": "module",
   "main": "scanner.js",
   "bin": {

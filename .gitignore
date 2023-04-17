@@ -1,8 +1,9 @@
-*.pyc
 *.egg-info
-__pycache__
-/go/scanner/atlant-scanner
-/javascript/scanner/node_modules
-/env
+*.pyc
 .gradle
+/env
+/go/scanner/atlant-scanner
 /java/scanner/build
+/javascript/scanner/node_modules
+__pycache__
+dist
