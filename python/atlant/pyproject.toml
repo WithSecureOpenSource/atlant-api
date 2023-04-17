@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "atlant"
+version = "2.0.0"
+authors = [ { name = "WithSecure", email = "noreply@withsecure.com" } ]
+license = { file = "LICENSE" }
+description = "Atlant client library for Python."
+requires-python = ">=3.8"
+keywords = [ "security", "antivirus", "api", "client", "icap", "rest" ]
+dependencies = [
+  "requests == 2.28.*",
+  "pydantic == 1.10.*"
+]
+classifiers = [
+  "License :: OSI Approved :: Apache Software License",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Topic :: Internet",
+  "Typing :: Typed",
+]
+
+[project.scripts]
+atlant = "atlant.cli.main:main"
+
+[tool.mypy]
+strict = true
+
+[tool.isort]
+profile = "black"

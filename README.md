@@ -1,130 +1,50 @@
-# WithSecure Atlant API Examples
+# WithSecure Atlant Integration Guide
 
-This repository contains examples for interacting with WithSecure Atlant API.
-WithSecure Atlant is a platform for building applications that are able to scan
-and detect malicious files.
+This repository contains tutorials and examples that demonstrate how to
+seamlessly integrate with WithSecure Atlant. Atlant is a powerful self-hosted
+service designed to scan files for malicious content, detect spam, and classify
+URLs. With Atlant, you can access these capabilities through a simple and
+intuitive REST API or integrate with existing ICAP-based solutions.
 
-Atlant provides a REST API for scanning files and managing the product
-configuration. Applications and services can use the API resources to analyze
-content using always up-to-date heuristics and statistical techniques.
+Whether you're new to Atlant or an experienced user, this repository provides
+comprehensive guidance on how to make the most of its features. Our tutorials
+and examples are designed to be easy to follow, with clear instructions and
+practical examples that you can adapt to your needs.
 
 ## Getting Started with Atlant Using cURL
 
-[This guide](curl/README.md) explains how to get started with Atlant using cURL.
-It explains how to install and configure Atlant and how to do common scanning
-tasks using command-line `curl` utility.
+[This tutorial](curl/README.md) explains how to get started with Atlant using
+cURL. It shows how to install and configure Atlant and how to perform common
+scanning tasks using the command-line `curl` utility.
 
-## Python Examples
+## Getting Started with Atlant Using Python
 
-Python examples are available in `python` directory. The directory contains a
-Python package that provides a number of utilities that demonstrate how the
-WithSecure Atlant APIs can be used to configure the product and scan files. The
-included example utilities are:
+[Python directory](python) houses a collection of Python libraries and
+applications that showcase using Atlant's diverse capabilities from Python.
 
-- `atlant-token`: Tool for fetching access tokens from WithSecure Atlant's
-  internal authorization server
-- `atlant-get`: Tool for getting setting values using configuration API
-- `atlant-set`: Tool for changing setting values using configuration API
-- `atlant-scan`: Tool for scanning files using scanning API
-- `atlant-web`: Example web app for scanning files
-- `atlant-icap`: Tool for using the ICAP interface
-- `atlant-dirscan`: Tool for scanning directories for harmful content
+The [`atlant`](python/atlant) module provides a client library for interacting
+with Atlant's REST API. The library enables Python code to scan files and other
+types of content using Atlant, and also offers configuration management
+capabilities. In addition to the library, the module includes a command-line
+tool with the same name and similar functionality. See [module-level
+documentation](python/atlant/README.md) for more information about the library
+and the associated command-line tool.
 
-### Installation
+The [`asyncio-icap-client`](python/asyncio-icap-client) module is a
+general-purpose ICAP client library for Python built on top of
+[`asyncio`](https://docs.python.org/3/library/asyncio.html). This module is not
+tied to Atlant, but can be used for interacting with any ICAP server.
 
-On a typical Linux system, the simplest way to try out the example utilities is
-to install them in a [virtual environment](https://docs.python.org/3/library/venv.html).
+The [`demo-web-app`](python/demo-web-app) directory contains a sample web
+application that internally employs Atlant to scan files. The application is
+distributed as a set of containers that can be easily deployed using [Docker
+compose](https://docs.docker.com/compose/).
 
-This can be achieved by running the following commands in project's root
-directory:
+## Examples in Other Languages
 
-``` shell
-python3 -m venv env
-source env/bin/activate
-cd python
-./setup.py develop
-```
+While the Python libraries and tools are the most comprehensive ones, we have
+also included additional examples in other languages for demonstration purposes:
 
-Now the example utilities should be available in current shell's path.
-
-#### Scanning Directories with atlant-dirscan
-
-`atlant-dirscan` Utility can be used for scanning directories for harmful
-content. Scan results are written to a CSV file.
-
-```
-usage: atlant-dirscan [-h] config dir output
-
-Scan directory for harmful files.
-
-positional arguments:
-  config      Configuration file path.
-  dir         Directory to scan.
-  output      Output file path.
-
-optional arguments:
-  -h, --help  show this help message and exit
-```
-
-`atlant-dirscan` requires that a path to a configuration file is supplied on the
-command line. The configuration file should have the following format:
-
-```
-{
-    "authorization_address": "authorization.example.com:8081",
-    "scanner_address": "scanner.example.com:8082",
-    "client_id": "...",
-    "client_secret": "...",
-    "security_cloud": false,
-    "allow_upstream_application_files": true,
-    "allow_upstream_data_files": false
-}
-```
-
-## Java Examples
-
-In `java/scanner`, there is an example command line based file scanning client
-written in Java 11. The client along with its dependencies can be built into a
-single JAR-file using [Gradle](https://gradle.org):
-
-``` shell
-cd java/scanner
-./gradlew shadowJar
-```
-
-The client can be invoked as:
-
-``` shell
-java -jar build/libs/scanner-all.jar AUTH-URL SCAN-URL CLIENT-ID CLIENT-SECRET FILE
-```
-
-Here `AUTH-URL` is Atlant authorization server address and `SCAN-URL` is a
-scanning server address. See WithSecure Atlant user guide for information on how
-to setup Atlant.
-
-## Go Examples
-
-In `go/scanner`, there is an example Go command line client capable of scanning
-files using WithSecure Atlant file scanning API. The client can be built with:
-
-``` shell
-cd go/scanner
-go build
-```
-
-The client can be invoked as:
-
-``` shell
-atlant-scanner AUTH-URL SCAN-URL CLIENT-ID CLIENT-SECRET FILE
-```
-
-
-## JavaScript Examples
-
-In `javascript/scanner`, there is an example command line based file scanning
-client build on top of Node.js. The client can be invoked as:
-
-``` shell
-atlant-scanner AUTH-URL SCAN-URL CLIENT-ID CLIENT-SECRET FILE
-```
-
+- [Examples in Java](java)
+- [Examples in JavaScript](javascript)
+- [Examples in Go](go)

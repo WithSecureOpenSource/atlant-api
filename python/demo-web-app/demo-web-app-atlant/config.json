@@ -1,0 +1,11 @@
+{
+  "license_file": "license.key",
+  "scanning": {
+    "icap_endpoints": [
+      {
+        "address": "0.0.0.0",
+        "port": 1344
+      }
+    ]
+  }
+}

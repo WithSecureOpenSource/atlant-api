@@ -1,0 +1,1 @@
+include asyncio_icap_client/py.typed

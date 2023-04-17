@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "demo_web_app_backend"
+version = "0.1.0"
+authors = [ { name = "WithSecure", email = "noreply@withsecure.com" } ]
+license = { file = "LICENSE" }
+description = "Backend for a demo web app making use of Atlant."
+requires-python = ">=3.8"
+keywords = [ "web", "antivirus" ]
+dependencies = [
+  "fastapi == 0.95.*",
+  "python-multipart == 0.0.6",
+  "asyncio-icap-client == 0.1.0",
+]
+classifiers = [
+  "License :: OSI Approved :: Apache Software License",
+  "Topic :: Internet",
+  "Topic :: Internet :: WWW/HTTP",
+]
+
+[tool.mypy]
+strict = true
+
+[tool.isort]
+profile = "black"

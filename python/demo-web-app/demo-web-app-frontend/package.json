@@ -1,0 +1,26 @@
+{
+  "name": "demo-web-app-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Frontend for a demo web app making use of Atlant.",
+  "scripts": {
+    "build": "node build.mjs build",
+    "serve": "node build.mjs serve",
+    "watch": "node build.mjs watch"
+  },
+  "author": "WithSecure <noreply@withsecure.com>",
+  "license": "Apache-2.0",
+  "keywords": [
+    "web",
+    "antivirus"
+  ],
+  "dependencies": {
+    "bootstrap": "^5.2.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.17.18",
+    "prettier": "^2.8.8"
+  }
+}
