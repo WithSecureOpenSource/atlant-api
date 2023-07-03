@@ -53,7 +53,7 @@ class ScanWarnings(BaseModel):
 
     @property
     def any(self) -> bool:
-        """True if any of the warnings were set."""
+        """True if any warnings were set."""
 
         return (
             self.corrupted
@@ -61,7 +61,7 @@ class ScanWarnings(BaseModel):
             or self.max_nested
             or self.max_results
             or self.max_scan_time
-            or self.max_scan_time
+            or self.need_content
         )
 
 
