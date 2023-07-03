@@ -236,7 +236,7 @@ The following is a simple configuration file for Atlant container:
 
 Replace `ATLANT-LICENSE-KEY` with the license key you received from WithSecure.
 Replace `API-KEY-FOR-CLIENTS` with an API key that clients need to provide when
-scanning content. API keys must be between 30 and 128 bytes long.
+scanning content. API keys must be between 30 and 128 bytes in size.
 
 This example configures a single REST scanning API endpoint and exposes it on
 the port `8081`. This guide will assume that this port is stored in
@@ -574,11 +574,11 @@ contents to the request
 }
 ```
 
-The scan request explicitly enables spam detection support by setting `antispam`
-property to `true` inside `scan_settings`. In addition, the request supplies
-Atlant with additional metadata about the message by specifying message's source
-IP address using the `ip` property and details about the sender and the
-recipients of the message using their respective properties.
+The scan request explicitly enables spam detection support by setting the
+`antispam` property to `true` inside the `scan_settings` object. In addition,
+the request supplies Atlant with additional metadata about the message by
+specifying message's source IP address using the `ip` property and details about
+the sender and the recipients of the message using their respective properties.
 
 The following command assumes `/path/to/some/email.txt` is a file containing the
 email message to be scanned:
@@ -674,9 +674,9 @@ its classification as the `need_content` warning is not set.
 
 ### Classifying URLs
 
-Atlant can also classify URLs into categories based on their content. To
-classify a URL, include it in the `uri` property inside `content_meta` object
-when making the scan request.
+Atlant can classify URLs into categories based on their content. To classify a
+URL, include it in the `uri` property inside `content_meta` object when making
+the scan request.
 
 **metadata.json**
 
