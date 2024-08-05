@@ -1,0 +1,123 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: atlant-dev-ns
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: atlant-cfg-map
+  namespace: atlant-dev-ns
+data:
+  config.json: |
+     {
+        "license_file": "secret/license.json",
+        "scanning": {
+            "http_endpoints": [
+                {
+                    "address": "0.0.0.0",
+                    "port": 8081
+                }
+            ]
+        },
+        "tls": {
+            "certificate": "secret/atlant.pem",
+            "key": "secret/atlant.key"
+        }
+     }
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: atlant-tls
+  namespace: atlant-dev-ns
+type: Opaque
+data:
+  license.json: |
+    LICENSE_FILE_CONTENT_IN_BASE64==
+  atlant.key: |
+    TLS_KEY_CONTENT_IN_BASE64==
+  atlant.pem: |
+    TLS_CERTIFICATE_CONTENT_IN_BASE64==
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: atlant-deployment
+  namespace: atlant-dev-ns
+  labels:
+    app: atlant
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: atlant
+  template:
+    metadata:
+      labels:
+        app: atlant
+    spec:
+      containers:
+      - name: atlant-container
+        image: public.ecr.aws/withsecure/atlant:latest
+        resources:
+          # Resource consumption depends on configuration
+          # (for example how deeply archives should be scanned)
+          # and files to scan (size, archives depth, number of simultaneous requests per pod).
+          # This is an example for medium sized zip bomb.
+          requests:
+            memory: "2048Mi"
+            cpu: "500m"
+          limits:
+            memory: "8192Mi"
+            cpu: "2000m"
+        securityContext:
+          allowPrivilegeEscalation: false
+        ports:
+        - containerPort: 8081
+        readinessProbe:
+          # Waiting for default virus definitions update
+          exec:
+            command:
+            - /bin/bash
+            - -c
+            - "[ -z $(/opt/withsecure/atlant/bin/update --list --no-lock | tr -d ' \n\r ') ]"
+          initialDelaySeconds: 20
+          periodSeconds: 5
+          failureThreshold: 30
+        volumeMounts:
+        - name: atlant-cfg-volume
+          mountPath: "/etc/opt/withsecure/atlant/config"
+          readOnly: true
+        - name: atlant-tls-volume
+          mountPath: "/etc/opt/withsecure/atlant/config/secret"
+          readOnly: true
+      volumes:
+      - name: atlant-cfg-volume
+        configMap:
+          name: atlant-cfg-map
+          items:
+          - key: "config.json"
+            path: "config.json"
+      - name: atlant-tls-volume
+        secret:
+          secretName: atlant-tls
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: atlant-service
+  namespace: atlant-dev-ns
+spec:
+  selector:
+    app: atlant
+  ports:
+    - port: 80
+      targetPort: 8081
+      nodePort: 31273
+  type: LoadBalancer
