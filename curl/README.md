@@ -391,6 +391,58 @@ configured to use HTTPS.
 In subsequent example commands we assume that the API key has been stored in
 `API_KEY` variable.
 
+## Running in Kubernetes
+
+The Atlant container is designed to run efficiently within a Kubernetes 
+cluster, providing robust scanning capabilities. The repository includes 
+three example YAML files, each demonstrating different configurations for 
+deploying the Atlant container:
+1. Basic Scanning Configuration:
+    - File: [atlant_basic.yaml](atlant_basic.yaml) 
+    - Description: This configuration allows scanning via plain HTTP without 
+      authentication. Activation is managed through the `subscription_key`.
+2. Configuration with API Key Authentication:
+    - File: [atlant_api_key.yaml](atlant_api_key.yaml)
+    - Description: This setup also uses plain HTTP for scanning but includes 
+      authentication via an `API_KEY`. Activation is managed through 
+      the `subscription_key`.
+3. Configuration with TLS Enabled:
+    - File: [atlant_tls.yaml](atlant_tls.yaml)
+    - Description: This example employs HTTPS. Activation is handled using 
+      a `license_file`.
+
+To deploy a template, follow these steps:
+```sh
+kubectl apply -f atlant_basic.yaml
+kubectl get pods -n atlant-dev-ns -o wide
+```
+
+These commands will apply the basic configuration and provide a detailed 
+view of the running pods in the `atlant-dev-ns` namespace.
+ 
+#### Post-Deployment Considerations:
+ 
+The Atlant container can be used almost immediately after deployment. 
+However, it is recommended to update the default virus definitions to ensure 
+optimal performance and security. The provided YAML files include a 
+`readinessProbe` to facilitate this update process.
+
+#### Useful Debug Commands:
+ 
+To assist with troubleshooting and ensure smooth operation, the following 
+commands can be used:
+
+```sh
+kubectl get events -n atlant-dev-ns -o wide
+kubectl logs atlant-deployment-57646cc58-tzf4r -n atlant-dev-ns
+```
+- kubectl get events: Retrieves detailed events from the `atlant-dev-ns` namespace.
+- kubectl logs: Displays logs for the specified pod, aiding in diagnosing issues.
+
+By following these guidelines and utilizing the provided examples, you can 
+effectively deploy and manage the Atlant container within your Kubernetes 
+environment.
+
 ## Scanning
 
 In the scanning API all scans are performed by making `POST` requests to the API
@@ -721,6 +773,6 @@ present if category information for the URL is not available.
 }
 ```
 
-[manual]: https://help.f-secure.com/product.html#business/atlant/latest/en/concept_0C321E9CB5994555A9B0A0B793DD5E98-latest-en
-[manual-system-requirements]: https://help.f-secure.com/product.html#business/atlant/latest/en/concept_FE8EDD82C8954CD2AF8A0546131B6E86-latest-en
+[manual]: https://www.withsecure.com/userguides/product.html#business/atlant/latest/en
+[manual-system-requirements]: https://www.withsecure.com/userguides/product.html#business/atlant/latest/en/concept_FE8EDD82C8954CD2AF8A0546131B6E86-latest-en
 [atlant-download]: https://www.withsecure.com/en/support/product-support/atlant#download
