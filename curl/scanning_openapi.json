@@ -1,0 +1,436 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "WithSecure Atlant Scanning API",
+    "description": "WithSecure Atlant is platform for building applications that can detect malicious files. Scanning API is responsible for scanning files for malware. The API is secured with OAuth2.0 and requires a token to be passed in the Authorization header. The token can be obtained by calling the /api/token/v1 endpoint. The API is also can be secured with an API key in case of Atlant contatiner version.",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "Scanning",
+      "description": "Operations related to scanning"
+    }
+  ],
+  "externalDocs": {
+    "description": "Documentation.",
+    "url": "https://www.withsecure.com/userguides/product.html?business/atlant/latest/en"
+  },
+  "servers": [
+    {
+      "url": "https://localhost:14080/",
+      "description": "Atlant Scanning API"
+    }
+  ],
+  "paths": {
+    "/api/status/v1": {
+      "get": {
+        "summary": "Atlant status",
+        "operationId": "getStatus",
+        "description": "Get status information. The response contains a body of type application/json structured according to the following schema",
+        "tags": [
+          "Scanning"
+        ],
+        "responses": {
+          "200": {
+            "description": "Succesfull response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatusResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/scan/v1": {
+      "post": {
+        "summary": "Scans a file",
+        "description": "POST requests to this path must contain a 'multipart/form-data' body, with either one or two parts; the first part must be of type 'application/json' and specifies the scan settings and content metadata as a serialized JSON object, structured according to the following schema. The second part, if present, contains the content and must be in binary format. Any Content-Transfer-Encoding header is ignored.",
+        "operationId": "scanFile",
+        "tags": [
+          "Scanning"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "metadata"
+                ],
+                "properties": {
+                  "metadata": {
+                    "$ref": "#/components/schemas/ScanSettings"
+                  },
+                  "data": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScanResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "StatusResponse": {
+        "title": "StatusResponse",
+        "type": "object",
+        "properties": {
+          "engines": {
+            "description": "Engines.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "description": "Engine name.",
+                  "type": "string"
+                },
+                "version": {
+                  "description": "Engine version.",
+                  "type": "string"
+                },
+                "db_version": {
+                  "description": "Engine database version",
+                  "type": "string"
+                },
+                "release_timestamp": {
+                  "description": "Engine timestamp",
+                  "type": "integer"
+                }
+              }
+            },
+            "required": [
+              "name",
+              "version",
+              "db_version",
+              "release_timestamp"
+            ]
+          },
+          "version": {
+            "description": "Server version.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "engines"
+        ]
+      },
+      "ScanSettings": {
+        "type": "object",
+        "title": "ScanSettings",
+        "properties": {
+          "scan_settings": {
+            "description": "Scan settings.",
+            "type": "object",
+            "properties": {
+              "scan_archives": {
+                "description": "Enable archive scanning.",
+                "type": "boolean",
+                "default": true
+              },
+              "max_nested": {
+                "description": "Scan nested archives up to this level.",
+                "type": "integer",
+                "minimum": 0,
+                "default": 5
+              },
+              "max_scan_time": {
+                "description": "Maximum scan time in seconds.",
+                "type": "integer",
+                "minimum": 1,
+                "default": 600
+              },
+              "stop_on_first": {
+                "description": "Stop scanning after the first detection.",
+                "type": "boolean",
+                "default": true
+              },
+              "block_encrypted_archives": {
+                "description": "Detecting encrypted archives.",
+                "type": "boolean",
+                "default": true
+              },
+              "allow_upstream_metadata": {
+                "description": "Allow upstreaming of file metadata.",
+                "type": "boolean",
+                "default": true
+              },
+              "antispam": {
+                "description": "Scan content for spam.",
+                "type": "boolean",
+                "default": false
+              },
+              "scan_embedded_urls": {
+                "description": "Scan URLs embedded in the content.",
+                "type": "boolean",
+                "default": false
+              },
+              "security_cloud": {
+                "description": "Use advanced cloud analysis. The section can be specified only if Atlant deployed with appropriate license, otherwise the request returns 401 Unauthorized",
+                "type": "object",
+                "properties": {
+                  "allow_upstream_application_files": {
+                    "description": "Allow upstreaming of application files.",
+                    "type": "boolean",
+                    "default": true
+                  },
+                  "allow_upstream_data_files": {
+                    "description": "Allow upstreaming of data files.",
+                    "type": "boolean",
+                    "default": false
+                  }
+                }
+              },
+              "forbidden_uri_categories": {
+                "description": "Detect if given \"uri\" metadata or found embedded urls match any of these categories.",
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "anyOf": [
+                    {
+                      "enum": [
+                        "abortion",
+                        "adserving",
+                        "adult",
+                        "alcohol_and_tobacco",
+                        "anonymizers",
+                        "auctions",
+                        "banking",
+                        "blogs",
+                        "chat",
+                        "dating",
+                        "disturbing",
+                        "drugs",
+                        "entertainment",
+                        "file_sharing",
+                        "forum",
+                        "gambling",
+                        "games",
+                        "hate",
+                        "illegal",
+                        "warez",
+                        "job_search",
+                        "paymentservice",
+                        "search_engines",
+                        "shopping",
+                        "social_networking",
+                        "software_download",
+                        "spam",
+                        "streaming_media",
+                        "tracking_cookie",
+                        "tracking_domain",
+                        "tracking_script",
+                        "tracking_object",
+                        "travel",
+                        "violence",
+                        "weapons",
+                        "webmail"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "content_meta": {
+            "description": "Content metadata.",
+            "type": "object",
+            "properties": {
+              "sha1": {
+                "description": "The content sha1 digest.",
+                "type": "string"
+              },
+              "uri": {
+                "description": "The content source URI.",
+                "type": "string"
+              },
+              "content_length": {
+                "description": "The content length.",
+                "type": "integer"
+              },
+              "content_type": {
+                "description": "The content type.",
+                "type": "string"
+              },
+              "charset": {
+                "description": "The content character set.",
+                "type": "string"
+              },
+              "ip": {
+                "description": "The content source IP.",
+                "type": "string"
+              },
+              "sender": {
+                "description": "The email address of the sender of the content.",
+                "type": "string"
+              },
+              "recipients": {
+                "description": "The email addresses of the recipients of the content.",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ScanResponse": {
+        "title": "ScanResponse",
+        "type": "object",
+        "properties": {
+          "scan_result": {
+            "description": "Scan result.",
+            "type": "string",
+            "enum": [
+              "clean",
+              "whitelisted",
+              "suspicious",
+              "PUA",
+              "UA",
+              "harmful",
+              "spam"
+            ]
+          },
+          "detections": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "category": {
+                  "description": "Detection category.",
+                  "type": "string",
+                  "enum": [
+                    "suspicious",
+                    "PUA",
+                    "UA",
+                    "harmful",
+                    "spam"
+                  ]
+                },
+                "name": {
+                  "description": "Detection name.",
+                  "type": "string"
+                },
+                "member_name": {
+                  "description": "Logical path to the archive member that triggered the detection.",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "category",
+                "name"
+              ]
+            }
+          },
+          "uri_categories": {
+            "description": "The known categories of the content URI specified in the metadata.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "status": {
+            "description": "Task status.",
+            "type": "string",
+            "enum": [
+              "complete"
+            ]
+          },
+          "warnings": {
+            "type": "object",
+            "properties": {
+              "corrupted": {
+                "description": "The server was unable to fully analyze the content because some data is corrupted",
+                "type": "boolean"
+              },
+              "encrypted": {
+                "description": "The server was unable to fully analyze the content because some data is encrypted",
+                "type": "boolean"
+              },
+              "max_nested": {
+                "description": "The server was unable to fully analyze the content with the given level limit for nested archives",
+                "type": "boolean"
+              },
+              "max_results": {
+                "description": "The server was unable to fully analyze the content since it has reached the maximum number of detections",
+                "type": "boolean"
+              },
+              "max_scan_time": {
+                "description": "The server was unable to fully analyze the content with the given scan time limit",
+                "type": "boolean"
+              },
+              "need_content": {
+                "description": "The client should re-send the request with the content included",
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "required": [
+          "scan_result",
+          "status"
+        ]
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      },
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-KEY"
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ]
+}
