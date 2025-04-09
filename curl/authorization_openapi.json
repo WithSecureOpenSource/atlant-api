@@ -1,0 +1,147 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "WithSecure Atlant Authorization API",
+    "description": "WithSecure Atlant is platform for building applications that can detect malicious files. Authorization API is responsible for getting access token for already created clients.",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "Authorization",
+      "description": "Operations related to Authorization"
+    }
+  ],
+  "externalDocs": {
+    "description": "Documentation.",
+    "url": "https://www.withsecure.com/userguides/product.html?business/atlant/latest/en"
+  },
+  "servers": [
+    {
+      "url": "https://localhost:12080/",
+      "description": "Atlant Authorization API"
+    }
+  ],
+  "paths": {
+    "/api/token/v1": {
+      "post": {
+        "summary": "Get a token",
+        "operationId": "getToken",
+        "description": "Returns a token for Authorization of scan and management requests.",
+        "security": [],
+        "tags": [
+          "Authorization"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/TokenRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Succesfull response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidRequestError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "TokenRequest": {
+        "title": "TokenRequest",
+        "type": "object",
+        "properties": {
+          "grant_type": {
+            "type": "string",
+            "enum": [
+              "client_credentials"
+            ]
+          },
+          "client_id": {
+            "type": "string",
+            "description": "The client ID from Atlant (e.g atlantctl client create)"
+          },
+          "client_secret": {
+            "type": "string",
+            "description": "The client secret from Atlant (e.g atlantctl client create)"
+          },
+          "audience": {
+            "type": "string",
+            "description": "The audience for the token. Can be 'f-secure-atlant' for standalone installation, or 'policy-manager' for Policy Manager installation, or any other in case of external Authorization configuration"
+          },
+          "scope": {
+            "type": "string",
+            "description": "The scope of the token. Can be 'scan' for scanning, 'management' for management, or 'scan management' for both"
+          }
+        },
+        "required": [
+          "grant_type",
+          "client_id",
+          "client_secret",
+          "audience"
+        ]
+      },
+      "TokenResponse": {
+        "title": "TokenResponse",
+        "type": "object",
+        "properties": {
+          "access_token": {
+            "type": "string"
+          },
+          "token_type": {
+            "type": "string",
+            "enum": [
+              "Bearer"
+            ]
+          },
+          "expires_in": {
+            "type": "integer",
+            "default": 3600
+          }
+        },
+        "required": [
+          "access_token",
+          "token_type",
+          "expires_in"
+        ]
+      },
+      "InvalidRequestError": {
+        "title": "InvalidRequestError",
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "error_description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "error",
+          "error_description"
+        ]
+      }
+    }
+  }
+}

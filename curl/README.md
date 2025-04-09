@@ -578,21 +578,6 @@ following response:
 Here Atlant classified the file as harmful and provided a list of detections for
 the file.
 
-#### Polling for Slow Results
-
-Atlant may not be able to respond with a full set of results immediately. In
-this case Atlant will respond with HTTP `202 Accepted` status and the response
-will have the `scan_result` property set to `pending` to indicate that the scan
-was not fully completed. Pending responses will also include `Location` and
-`Retry-After` headers. The `Location` header specifies a path that the client
-should poll for results and the `Retry-After` header includes a suggestion for
-the number of seconds that the client should wait before polling.
-
-To poll for results, client should make an HTTP `GET` request to the path
-specified in the `Location` header included in the response to the initial scan
-request. Client should continue polling for results until the `status` property
-in the response is set to `complete`.
-
 ### Detecting Spam
 
 Atlant can also be used to detect spam. To do this, client needs to enable spam
