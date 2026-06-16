@@ -47,7 +47,7 @@ def command(
         raise Exception("Command requires OAuth based authentication to be used.")
     client = OAuthClientCredentialsClient(
         session,
-        config.authentication.authorization_url,
+        str(config.authentication.authorization_url),
     )
     token = client.get_access_token(
         config.authentication.client_id,

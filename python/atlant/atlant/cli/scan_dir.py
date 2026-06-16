@@ -72,7 +72,7 @@ def scan_files(
         logging.debug("Initializing scanner thread.")
         thread_context.client = ScanClient(
             session,
-            config.scanning_url,
+            str(config.scanning_url),
             config.get_authenticator(session, [Scope.SCAN]),
         )
 

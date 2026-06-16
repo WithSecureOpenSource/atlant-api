@@ -5,7 +5,8 @@ from typing import Dict, Final, FrozenSet, List, Optional, Set
 from asyncio_icap_client import ICAPClient, ICAPResponse
 from fastapi import FastAPI, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import AnyUrl, BaseModel, BaseSettings
+from pydantic import AnyUrl, BaseModel
+from pydantic_settings import BaseSettings
 
 ICAP_HEADERS: Final[Dict[str, str]] = {
     "Allow": "204",

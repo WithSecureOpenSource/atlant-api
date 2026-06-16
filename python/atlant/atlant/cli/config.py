@@ -47,7 +47,7 @@ def set_command(
         raise Exception("Management URL must be specified.")
     client = ConfigClient(
         session,
-        config.management_url,
+        str(config.management_url),
         config.get_authenticator(session, [Scope.MANAGEMENT]),
     )
     client.set(setting, value)
@@ -63,7 +63,7 @@ def get_command(
         raise Exception("Management URL must be specified.")
     client = ConfigClient(
         session,
-        config.management_url,
+        str(config.management_url),
         config.get_authenticator(session, [Scope.MANAGEMENT]),
     )
     value = client.get(setting)

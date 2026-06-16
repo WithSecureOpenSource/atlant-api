@@ -12,8 +12,6 @@
     "security"
   ],
   "dependencies": {
-    "form-data": "^4.0.0",
-    "node-fetch": "^3.2.6",
     "sleep-promise": "^9.1.0"
   }
 }

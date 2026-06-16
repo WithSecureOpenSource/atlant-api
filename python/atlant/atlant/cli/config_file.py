@@ -66,7 +66,7 @@ class Config(BaseModel):
         if isinstance(self.authentication, OAuthConfig):
             return OAuthClientCredentialsAuthenticator(
                 session,
-                self.authentication.authorization_url,
+                str(self.authentication.authorization_url),
                 self.authentication.client_id,
                 self.authentication.client_secret,
                 self.authentication.audience,

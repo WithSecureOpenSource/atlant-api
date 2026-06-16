@@ -4,8 +4,6 @@
 
 import fs from "fs";
 import process from "process";
-import fetch from "node-fetch";
-import FormData from "form-data";
 import sleep from "sleep-promise";
 import { URLSearchParams } from "url";
 
@@ -41,14 +39,14 @@ async function scanFile(address, token, path) {
     const formData = new FormData();
     formData.append("metadata", JSON.stringify(metadata));
     formData.append("data", fs.createReadStream(path));
-    let headers = formData.getHeaders();
-    headers["Authorization"] = `Bearer ${token}`;
     const response = await fetch(
         `https://${address}/api/scan/v1`,
         {
             method: "POST",
             body: formData,
-            headers: headers
+            headers: {
+                "Authorization": `Bearer ${token}`,
+            },
         }
     );
     if (response.status === 200 || response.status === 202) {

@@ -11,9 +11,11 @@ description = "Backend for a demo web app making use of Atlant."
 requires-python = ">=3.8"
 keywords = [ "web", "antivirus" ]
 dependencies = [
-  "fastapi == 0.95.*",
-  "python-multipart == 0.0.6",
+  "fastapi == 0.137.*",
+  "python-multipart == 0.0.32",
   "asyncio-icap-client == 0.1.0",
+  "pydantic == 2.13.4",
+  "pydantic-settings == 2.14.1",
 ]
 classifiers = [
   "License :: OSI Approved :: Apache Software License",
