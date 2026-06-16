@@ -25,7 +25,7 @@ def command(
 ) -> None:
     client = ScanClient(
         session,
-        config.scanning_url,
+        str(config.scanning_url),
         config.get_authenticator(session, [Scope.SCAN]),
     )
     content_meta = ScanContentMetadata(uri=url)

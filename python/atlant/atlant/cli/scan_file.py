@@ -1,4 +1,5 @@
 from argparse import ArgumentTypeError, FileType
+import json
 from typing import Any, BinaryIO, Optional
 
 import requests
@@ -73,7 +74,7 @@ def command(
 ) -> None:
     client = ScanClient(
         session,
-        config.scanning_url,
+        str(config.scanning_url),
         config.get_authenticator(session, [Scope.SCAN]),
     )
     scan_settings = ScanSettings(
@@ -85,4 +86,4 @@ def command(
     )
     metadata = ScanMetadata(scan_settings=scan_settings)
     response = client.scan_until_completion(metadata, file)
-    print(response.json(exclude={"poll_settings"}, indent=2))
+    print(response.model_dump_json(exclude={"poll_settings"}, indent=2))
